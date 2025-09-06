@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM Learning </title>
+  <style>
+    body {
+      background-color: #212121;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body class="body">
+  <div id="title" class="Main-div">
+    <h1>We Are Learning DOM</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, numquam vitae est ipsa repudiandae nihil autem ex sint totam ea. Earum recusandae dolorum vitae velit harum dolores qui beatae labore.
+    </p>
+  </div>
+
+</body>
+<script>
+  const div = document.createElement('div')
+  console.log(div);
+  div.className = 'main';
+  div.id = Math.round(Math.random() * 10 + 1)
+  div.setAttribute('title', 'generated-title')
+  div.style.backgroundColor = 'green'
+  div.style.padding = '14px'
+  // div.innerText = "Created a Text Node"
+  const addText = document.createTextNode('Created a Text Node')
+  div.appendChild(addText)
+
+  document.body.appendChild(div)
+
+  
+</script>
+</html>
