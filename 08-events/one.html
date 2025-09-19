@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Document</title>
+</head>
+<body style="background-color: #414141; color: aliceblue;">
+  <h2>Amazing Images</h2>
+  <div>
+    <ul class="images">
+      <li>
+        <image  height="100px" wdith="40px" id="photoshop" src="./wallpaper.jpg" alt="photoshop">
+      </li>
+      <li>
+        <image  height="100px" wdith="40px" id="photoshop" src="./wallpaper-2.jpg" alt="photoshop">
+      </li>
+      <li>
+        <image  height="100px" wdith="40px" id="photoshop" src="./wallpaper-3.jpg" alt="photoshop">
+      </li>
+      <li>
+        <image  height="100px" wdith="40px" id="photoshop" src="./wallpaper-4.jpg" alt="photoshop">
+      </li>
+    </ul>
+  </div>
+  <script>
+    document.querySelector('.images').addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log(e.target.tagName);
+      if(e.target.tagName === 'IMG') {
+        console.log(e.target.id);
+        let removeIt = e.target.parentNode
+        removeIt.remove();
+      }
+    })
+  </script>
+</body>
+</html>
