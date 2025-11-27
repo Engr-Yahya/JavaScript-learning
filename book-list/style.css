@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 #wrapper {
-  text-align: center;
   background-color: rgb(110, 27, 2);
   color: #fff;
   padding: 40px 20px;
@@ -14,10 +13,12 @@
   margin: 50px auto;
 }
 .title {
+  text-align: center;
   font-size: 32px;
   font-weight: bold;
 }
 .title-text {
+  text-align: center;
   font-size: 20px;
   padding: 10px 0px;
   font-weight: 500;
