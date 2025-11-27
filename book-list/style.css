@@ -75,3 +75,10 @@ button {
 button:hover {
   transform: translate(0, 4px);
 }
+
+#add-form #hide {
+  width: 30px;
+}
+#add-form #lable {
+  line-height: 52px;
+}

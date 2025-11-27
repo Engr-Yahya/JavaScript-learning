@@ -21,8 +21,10 @@
 const list = document.querySelector("#book-list ul");
 
 list.addEventListener("click", (e) => {
-  const li = e.target.parentElement;
-  list.removeChild(li);
+  if (e.target.className == "delete") {
+    const listItem = e.target.parentElement;
+    list.removeChild(listItem);
+  }
 });
 
 const addForms = document.forms["add-form"];
