@@ -29,5 +29,19 @@ const addForms = document.forms["add-form"];
 addForms.addEventListener("submit", (e) => {
   e.preventDefault();
   const value = addForms.querySelector('input[type="text"]').value;
-  console.log(value);
+
+  const li = document.createElement("li");
+  const bookName = document.createElement("span");
+  const deleteBtn = document.createElement("span");
+
+  bookName.textContent = value;
+  deleteBtn.textContent = "delete";
+
+  li.classList.add("flex-list");
+  bookName.classList.add("name");
+  deleteBtn.classList.add("delete");
+
+  li.appendChild(bookName);
+  li.appendChild(deleteBtn);
+  list.appendChild(li);
 });
