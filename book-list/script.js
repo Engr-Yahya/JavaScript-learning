@@ -10,10 +10,24 @@
 //     list.remove(list);
 //   });
 // });
-let btns = document.querySelectorAll(".name");
-Array.from(btns).forEach(function (btn) {
-  btn.addEventListener("click", function (e) {
-    const list = e.target.parentElement;
-    list.parentNode.removeChild(list);
-  });
+// console.log("Hello World!");
+// let btns = document.querySelectorAll(".delete");
+// Array.from(btns).forEach(function (btn) {
+//   btn.addEventListener("click", function (e) {
+//     const list = e.target.parentElement;
+//     list.parentNode.removeChild(list);
+//   });
+// });
+const list = document.querySelector("#book-list ul");
+
+list.addEventListener("click", (e) => {
+  const li = e.target.parentElement;
+  list.removeChild(li);
+});
+
+const addForms = document.forms["add-form"];
+addForms.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const value = addForms.querySelector('input[type="text"]').value;
+  console.log(value);
 });
