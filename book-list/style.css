@@ -13,6 +13,7 @@
   margin: 50px auto;
 }
 .title {
+  margin-bottom: 20px;
   text-align: center;
   font-size: 32px;
   font-weight: bold;
@@ -20,7 +21,6 @@
 .title-text {
   text-align: center;
   font-size: 20px;
-  padding: 10px 0px;
   font-weight: 500;
 }
 input {
@@ -80,6 +80,6 @@ button:hover {
 #add-form #hide {
   width: 30px;
 }
-#add-form #lable {
+#add-form label {
   line-height: 52px;
 }
