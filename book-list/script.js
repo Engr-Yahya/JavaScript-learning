@@ -1,23 +1,3 @@
-// const book = document.querySelectorAll("#book-list li .name");
-// // console.log(book);
-// Array.from(book).forEach(function (book) {
-//   console.log(book);
-// });
-// const btns = document.querySelectorAll(".name");
-// btns.forEach((btn) => {
-//   btn.addEventListener("click", (e) => {
-//     const list = e.target;
-//     list.remove(list);
-//   });
-// });
-// console.log("Hello World!");
-// let btns = document.querySelectorAll(".delete");
-// Array.from(btns).forEach(function (btn) {
-//   btn.addEventListener("click", function (e) {
-//     const list = e.target.parentElement;
-//     list.parentNode.removeChild(list);
-//   });
-// });
 const list = document.querySelector("#book-list ul");
 
 list.addEventListener("click", (e) => {
