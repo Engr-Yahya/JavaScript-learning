@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+      <div id="page-banner">
+        <h1 class="title">Bookorama</h1>
+        <p class="title-text">Books for Ninjas</p>
+        <form id="search-books">
+          <input type="text" placeholder="Search for Books..." />
+        </form>
+      </div>
+    </header>
+    <div id="book-list">
+      <h2 class="title">Books to Read</h2>
+      <ul>
+        <li class="flex-list">
+          <span class="name">Name of the Wind</span>
+          <span class="delete">Delete</span>
+        </li>
+        <li class="flex-list">
+          <span class="name">The wise mans Fear</span>
+          <span class="delete">Delete</span>
+        </li>
+        <li class="flex-list">
+          <span class="name">Kafka on the shore</span>
+          <span class="delete">Delete</span>
+        </li>
+        <li class="flex-list">
+          <span class="name">The Master and the Margarita</span>
+          <span class="delete">Delete</span>
+        </li>
+      </ul>
+    </div>
+    <form id="add-form">
+      <input type="checkbox" id="hide" />
+      <label for="hide">Hide all books</label>
+      <input type="text" placeholder="Add a book..." />
+      <button>Add to list</button>
+    </form>
+    <div id="tabbed-content">
+      <ul class="tabs">
+        <li data-target="#about" class="active">About</li>
+        <li data-target="#contact">contact</li>
+      </ul>
+      <div class="panel active" id="about">
+        <p>Content for about tab</p>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. A dolorum facere facilis eos necessitatibus ullam
+          nihil assumenda qui illum earum veniam ratione, deleniti veritatis quasi laudantium voluptates saepe
+          architecto sint.</p>
+      </div>
+      <div class="panel" id="contact">
+        <p>Content for contact tab...</p>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. A dolorum facere facilis eos necessitatibus ullam
+          nihil assumenda qui illum earum veniam ratione, deleniti veritatis quasi laudantium voluptates saepe
+          architecto sint.</p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
