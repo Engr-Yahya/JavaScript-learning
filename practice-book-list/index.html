@@ -165,20 +165,21 @@
 
     const li = document.createElement('li');
     const bookName = document.createElement('span');
-    const newSpan = document.createElement('span')
+    const editBtn = document.createElement('span')
     const deleteBtn = document.createElement('span');
 
     bookName.textContent = value;
     deleteBtn.textContent = 'delete';
-    newSpan.textContent = 'edit';
+    editBtn.textContent = 'edit';
 
     li.classList.add('flex-list');
     bookName.classList.add('name');
-    newSpan.classList.add('edit');
+    editBtn.classList.add('edit');
     deleteBtn.classList.add('delete');
 
 
     li.appendChild(bookName);
+    li.appendChild(editBtn);
     li.appendChild(deleteBtn);
     list.insertBefore(li, list.firstElementChild);
 
