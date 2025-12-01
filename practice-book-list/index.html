@@ -123,6 +123,9 @@
 </body>
 <script>
   const list = document.querySelector('#book-list ul');
+
+  const listArray = [];
+
   list.addEventListener('click', (e) => {
     if (e.target.className == 'delete') {
       const li = e.target.parentElement;
@@ -167,6 +170,10 @@
     e.preventDefault();
     const value = addForms.querySelector('input[type="text"]').value;
 
+    listArray.push(value);
+    console.log(listArray);
+
+
     const li = document.createElement('li');
     const bookName = document.createElement('span');
     const editBtn = document.createElement('span')
@@ -188,7 +195,6 @@
     list.insertBefore(li, list.firstElementChild);
 
     e.target.reset();
-
   });
 
   const searchBar = document.forms['search'].querySelector('input');

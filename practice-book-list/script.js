@@ -1,22 +1,23 @@
-// --- LOAD BOOKS FROM LOCALSTORAGE ---
-let booksArray = JSON.parse(localStorage.getItem("books")) || [];
+const list = document.querySelector("#book-list ul");
+let booksArray = []; // This will store all books
 
-// UI me load karne ka function
-function displayBooks() {
-  booksArray.forEach((book) => {
-    addBookToUI(book);
-  });
-}
-displayBooks();
+// Add new book
+const addForms = document.forms["add-form"];
+addForms.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const value = addForms.querySelector('input[type="text"]').value;
+  if (value === "") return; // prevent empty entries
 
-// --- ADD BOOK TO UI FUNCTION ---
-function addBookToUI(bookNameValue) {
+  // Add book to array
+  booksArray.push(value);
+
+  // Create list item
   const li = document.createElement("li");
   const bookName = document.createElement("span");
   const editBtn = document.createElement("span");
   const deleteBtn = document.createElement("span");
 
-  bookName.textContent = bookNameValue;
+  bookName.textContent = value;
   editBtn.textContent = "edit";
   deleteBtn.textContent = "delete";
 
@@ -28,28 +29,24 @@ function addBookToUI(bookNameValue) {
   li.appendChild(bookName);
   li.appendChild(editBtn);
   li.appendChild(deleteBtn);
+
   list.insertBefore(li, list.firstElementChild);
-}
 
-// ------------------ YOUR ORIGINAL CODE ------------------
+  e.target.reset();
+});
 
-const list = document.querySelector("#book-list ul");
 list.addEventListener("click", (e) => {
-  // DELETE
-  if (e.target.className == "delete") {
+  if (e.target.classList.contains("delete")) {
     const li = e.target.parentElement;
-    const title = li.querySelector(".name").textContent;
+    const bookName = li.querySelector(".name").textContent;
 
-    // remove from UI
+    // Remove from array
+    booksArray = booksArray.filter((book) => book !== bookName);
+
     list.removeChild(li);
-
-    // remove from localStorage
-    booksArray = booksArray.filter((b) => b !== title);
-    localStorage.setItem("books", JSON.stringify(booksArray));
   }
 
-  // EDIT
-  if (e.target.className == "edit") {
+  if (e.target.classList.contains("edit")) {
     const li = e.target.parentElement;
     const bookName = li.querySelector(".name");
 
@@ -60,68 +57,89 @@ list.addEventListener("click", (e) => {
     li.querySelector(".edit").style.display = "none";
     li.querySelector(".delete").style.display = "none";
 
-    let saveBtn = document.createElement("span");
-    saveBtn.className = "save";
-    saveBtn.textContent = "Save";
-
-    e.target.parentElement.appendChild(saveBtn);
+    let saveBtn = li.querySelector(".save");
+    if (!saveBtn) {
+      saveBtn = document.createElement("span");
+      saveBtn.className = "save";
+      saveBtn.textContent = "Save";
+      li.appendChild(saveBtn);
+    }
   }
 
-  // SAVE
-  if (e.target.className == "save") {
+  if (e.target.classList.contains("save")) {
     const li = e.target.parentElement;
     const bookName = li.querySelector(".name");
-    const newTitle = bookName.textContent;
-
-    const oldTitle = booksArray.find(
-      (b) => b === bookName.getAttribute("data-old") || b === newTitle
-    );
-
-    // update localStorage
-    booksArray = booksArray.map((b) => (b === oldTitle ? newTitle : b));
-    localStorage.setItem("books", JSON.stringify(booksArray));
 
     bookName.removeAttribute("contenteditable");
-
     li.querySelector(".edit").style.display = "inline";
     li.querySelector(".delete").style.display = "inline";
 
-    e.target.style.display = "none";
+    e.target.remove();
+
+    // Update array with edited value
+    const oldValueIndex = booksArray.indexOf(bookName.dataset.oldValue);
+    if (oldValueIndex > -1) {
+      booksArray[oldValueIndex] = bookName.textContent;
+    }
   }
 });
 
-// -------------------- ADD BOOK ---------------------
+/*
+    const list = document.querySelector('#book-list ul');
 
-const addForms = document.forms["add-form"];
-addForms.addEventListener("submit", (e) => {
-  e.preventDefault();
+  const listArray = JSON.parse(localStorage.getItem('books')) || [];
 
-  const value = addForms.querySelector('input[type="text"]').value;
+  listArray.forEach((value) => {
+    const li = document.createElement('li');
+    const bookName = document.createElement('span');
+    const editBtn = document.createElement('span')
+    const deleteBtn = document.createElement('span');
 
-  // add to UI
-  addBookToUI(value);
+    bookName.textContent = value;
+    deleteBtn.textContent = 'delete';
+    editBtn.textContent = 'edit';
 
-  // add to localStorage
-  booksArray.push(value);
-  localStorage.setItem("books", JSON.stringify(booksArray));
+    li.classList.add('flex-list');
+    bookName.classList.add('name');
+    editBtn.classList.add('edit');
+    deleteBtn.classList.add('delete');
 
-  // clear input
-  addForms.reset();
-});
 
-// -------------------- SEARCH ----------------------
+    li.appendChild(bookName);
+    li.appendChild(editBtn);
+    li.appendChild(deleteBtn);
+    list.appendChild(li);
 
-const searchBar = document.forms["search"].querySelector("input");
-searchBar.addEventListener("keyup", (e) => {
-  const term = e.target.value.toLowerCase();
-  const books = list.querySelectorAll("li");
-
-  books.forEach((book) => {
-    const title = book.firstElementChild.textContent;
-    if (title.toLowerCase().indexOf(term) != -1) {
-      book.style.display = "flex";
-    } else {
-      book.style.display = "none";
-    }
   });
-});
+
+    const addForms = document.forms['add-form'];
+  addForms.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const value = addForms.querySelector('input[type="text"]').value;
+
+    listArray.push(value);
+    localStorage.setItem('books', JSON.stringify(listArray));
+
+    const li = document.createElement('li');
+    const bookName = document.createElement('span');
+    const editBtn = document.createElement('span')
+    const deleteBtn = document.createElement('span');
+
+    bookName.textContent = value;
+    deleteBtn.textContent = 'delete';
+    editBtn.textContent = 'edit';
+
+    li.classList.add('flex-list');
+    bookName.classList.add('name');
+    editBtn.classList.add('edit');
+    deleteBtn.classList.add('delete');
+
+
+    li.appendChild(bookName);
+    li.appendChild(editBtn);
+    li.appendChild(deleteBtn);
+    list.insertBefore(li, list.firstElementChild);
+
+    e.target.reset();
+  });
+*/
