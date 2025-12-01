@@ -64,13 +64,17 @@
 
   .edit-book {
     text-align: left;
-    padding: 10px;
+    padding: 10px 0px;
     width: 20%;
   }
 
   .edit {
     margin-left: auto;
     margin-right: 10px;
+  }
+
+  .name {
+    font-size: 18px;
   }
 </style>
 
@@ -182,6 +186,8 @@
     li.appendChild(editBtn);
     li.appendChild(deleteBtn);
     list.insertBefore(li, list.firstElementChild);
+
+    e.target.reset();
 
   });
 

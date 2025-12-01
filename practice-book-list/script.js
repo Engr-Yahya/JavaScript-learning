@@ -1,33 +1,24 @@
-// ------------------ LOAD FROM LOCAL STORAGE --------------------
-function loadBooks() {
-  const storedBooks = JSON.parse(localStorage.getItem("books")) || [];
+// --- LOAD BOOKS FROM LOCALSTORAGE ---
+let booksArray = JSON.parse(localStorage.getItem("books")) || [];
 
-  storedBooks.forEach((book) => {
-    createListItem(book);
+// UI me load karne ka function
+function displayBooks() {
+  booksArray.forEach((book) => {
+    addBookToUI(book);
   });
 }
-loadBooks();
+displayBooks();
 
-// ------------------ SAVE TO LOCAL STORAGE --------------------
-function saveBooks() {
-  const books = [];
-  document.querySelectorAll("#book-list ul li .name").forEach((item) => {
-    books.push(item.textContent);
-  });
-
-  localStorage.setItem("books", JSON.stringify(books));
-}
-
-// ------------------ CREATE <li> FUNCTION --------------------
-function createListItem(bookNameValue) {
+// --- ADD BOOK TO UI FUNCTION ---
+function addBookToUI(bookNameValue) {
   const li = document.createElement("li");
   const bookName = document.createElement("span");
   const editBtn = document.createElement("span");
   const deleteBtn = document.createElement("span");
 
   bookName.textContent = bookNameValue;
-  deleteBtn.textContent = "delete";
   editBtn.textContent = "edit";
+  deleteBtn.textContent = "delete";
 
   li.classList.add("flex-list");
   bookName.classList.add("name");
@@ -37,23 +28,24 @@ function createListItem(bookNameValue) {
   li.appendChild(bookName);
   li.appendChild(editBtn);
   li.appendChild(deleteBtn);
-
-  list.appendChild(li);
+  list.insertBefore(li, list.firstElementChild);
 }
 
-// ==============================================================
-// ===============  YOUR EVENT LISTENER LOGIC  ===================
-// ==============================================================
+// ------------------ YOUR ORIGINAL CODE ------------------
 
 const list = document.querySelector("#book-list ul");
-
 list.addEventListener("click", (e) => {
   // DELETE
   if (e.target.className == "delete") {
     const li = e.target.parentElement;
+    const title = li.querySelector(".name").textContent;
+
+    // remove from UI
     list.removeChild(li);
 
-    saveBooks(); // update storage
+    // remove from localStorage
+    booksArray = booksArray.filter((b) => b !== title);
+    localStorage.setItem("books", JSON.stringify(booksArray));
   }
 
   // EDIT
@@ -72,45 +64,54 @@ list.addEventListener("click", (e) => {
     saveBtn.className = "save";
     saveBtn.textContent = "Save";
 
-    li.appendChild(saveBtn);
+    e.target.parentElement.appendChild(saveBtn);
   }
 
-  // SAVE (after edit)
+  // SAVE
   if (e.target.className == "save") {
     const li = e.target.parentElement;
     const bookName = li.querySelector(".name");
+    const newTitle = bookName.textContent;
+
+    const oldTitle = booksArray.find(
+      (b) => b === bookName.getAttribute("data-old") || b === newTitle
+    );
+
+    // update localStorage
+    booksArray = booksArray.map((b) => (b === oldTitle ? newTitle : b));
+    localStorage.setItem("books", JSON.stringify(booksArray));
 
     bookName.removeAttribute("contenteditable");
 
     li.querySelector(".edit").style.display = "inline";
     li.querySelector(".delete").style.display = "inline";
 
-    e.target.remove(); // remove save button
-
-    saveBooks(); // update storage after editing
+    e.target.style.display = "none";
   }
 });
 
-// ---------------- ADD NEW BOOK ------------------
+// -------------------- ADD BOOK ---------------------
 
 const addForms = document.forms["add-form"];
-
 addForms.addEventListener("submit", (e) => {
   e.preventDefault();
+
   const value = addForms.querySelector('input[type="text"]').value;
 
-  if (value.trim() === "") return;
+  // add to UI
+  addBookToUI(value);
 
-  createListItem(value);
-  saveBooks(); // update storage
+  // add to localStorage
+  booksArray.push(value);
+  localStorage.setItem("books", JSON.stringify(booksArray));
 
+  // clear input
   addForms.reset();
 });
 
-// ---------------- SEARCH BAR ------------------
+// -------------------- SEARCH ----------------------
 
 const searchBar = document.forms["search"].querySelector("input");
-
 searchBar.addEventListener("keyup", (e) => {
   const term = e.target.value.toLowerCase();
   const books = list.querySelectorAll("li");
