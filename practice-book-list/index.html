@@ -24,6 +24,10 @@
     border-radius: 9px;
   }
 
+  h1 {
+    margin-bottom: 20px;
+  }
+
   .flex-list {
     padding: 20px;
     display: flex;
@@ -80,6 +84,7 @@
 
 <body>
   <div class="container">
+    <h1> Books List</h1>
     <form id="search">
       <input type="text" placeholder="search for books">
     </form>
@@ -116,7 +121,7 @@
       </ul>
     </div>
     <form id="add-form">
-      <input type="text" placeholder="Enter any book" />
+      <input type="text" placeholder="Enter any book" required />
       <input type="submit" class="button" />
     </form>
   </div>
@@ -124,7 +129,34 @@
 <script>
   const list = document.querySelector('#book-list ul');
 
-  const listArray = [];
+  let listArray = JSON.parse(localStorage.getItem('books')) || [];
+
+
+  function displayBooks() {
+    listArray.forEach((value) => {
+      const li = document.createElement('li');
+      const bookName = document.createElement('span');
+      const editBtn = document.createElement('span');
+      const deleteBtn = document.createElement('span');
+
+      bookName.textContent = value;
+      editBtn.textContent = 'edit';
+      deleteBtn.textContent = 'delete';
+
+      li.classList.add('flex-list');
+      bookName.classList.add('name');
+      editBtn.classList.add('edit');
+      deleteBtn.classList.add('delete');
+
+      li.appendChild(bookName);
+      li.appendChild(editBtn);
+      li.appendChild(deleteBtn);
+
+      list.appendChild(li);
+    });
+  }
+
+  displayBooks();
 
   list.addEventListener('click', (e) => {
     if (e.target.className == 'delete') {
@@ -165,14 +197,14 @@
 
   });
 
+
   const addForms = document.forms['add-form'];
   addForms.addEventListener('submit', (e) => {
     e.preventDefault();
     const value = addForms.querySelector('input[type="text"]').value;
 
     listArray.push(value);
-    console.log(listArray);
-
+    localStorage.setItem('books', JSON.stringify(listArray));
 
     const li = document.createElement('li');
     const bookName = document.createElement('span');
