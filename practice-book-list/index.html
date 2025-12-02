@@ -130,7 +130,7 @@
   const list = document.querySelector('#book-list ul');
 
   let listArray = JSON.parse(localStorage.getItem('books')) || [];
-
+  console.log(listArray);
 
   function displayBooks() {
     listArray.forEach((value) => {
@@ -161,13 +161,19 @@
   list.addEventListener('click', (e) => {
     if (e.target.className == 'delete') {
       const li = e.target.parentElement;
+      const bookName = li.querySelector('.name').textContent;
+
       list.removeChild(li);
+
+      listArray = listArray.filter(x => x !== bookName);
+      localStorage.setItem('books', JSON.stringify(listArray));
     }
 
     if (e.target.className == 'edit') {
       const li = e.target.parentElement;
       const bookName = li.querySelector('.name');
 
+      bookName.setAttribute("data-oldBookName", bookName.textContent);
       bookName.setAttribute("contenteditable", "true");
       bookName.classList.add('edit-book')
       bookName.focus();
@@ -182,17 +188,24 @@
       e.target.parentElement.appendChild(saveBtn);
     }
 
-    if (e.target.className == 'save') {
-
+    if (e.target.className == "save") {
       const li = e.target.parentElement;
-      const bookName = li.querySelector('.name');
+      const bookName = li.querySelector(".name");
+      const oldBookName = bookName.getAttribute("data-oldBookName");
+      const newBookName = bookName.textContent;
+      console.log(newBookName);
 
       bookName.removeAttribute("contenteditable");
-
-      li.querySelector('.edit').style.display = "inline";
-      li.querySelector('.delete').style.display = "inline";
+      li.querySelector(".edit").style.display = "inline";
+      li.querySelector(".delete").style.display = "inline";
 
       e.target.style.display = "none";
+      const index = listArray.indexOf(oldBookName);
+      if (index !== -1) {
+        listArray[index] = newBookName;
+        localStorage.setItem("books", JSON.stringify(listArray));
+      }
+
     }
 
   });
@@ -208,23 +221,23 @@
 
     const li = document.createElement('li');
     const bookName = document.createElement('span');
-    const editBtn = document.createElement('span')
+    const editBtn = document.createElement('span');
     const deleteBtn = document.createElement('span');
 
     bookName.textContent = value;
-    deleteBtn.textContent = 'delete';
     editBtn.textContent = 'edit';
+    deleteBtn.textContent = 'delete';
 
     li.classList.add('flex-list');
     bookName.classList.add('name');
     editBtn.classList.add('edit');
     deleteBtn.classList.add('delete');
 
-
     li.appendChild(bookName);
     li.appendChild(editBtn);
     li.appendChild(deleteBtn);
-    list.insertBefore(li, list.firstElementChild);
+
+    list.appendChild(li);
 
     e.target.reset();
   });
